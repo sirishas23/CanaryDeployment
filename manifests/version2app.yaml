@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ng-canary
+  name: ng-canary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ng-canary
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ng-canary
+    spec:
+      containers:
+      - command:
+        - /bin/sh
+        - -c
+        - echo "Im Canary service and being served from $HOSTNAME" > /usr/share/nginx/html/index.html  &&
+          nginx -g "daemon off;"
+        image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ng-canary
+  name: ng-canary
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ng-canary
