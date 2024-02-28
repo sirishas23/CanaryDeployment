@@ -6,7 +6,7 @@ metadata:
     app: ng-canary
   name: ng-canary
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: ng-canary
